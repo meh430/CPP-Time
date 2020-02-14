@@ -4,16 +4,9 @@
 #include "AdjacencyList.h"
 
 //adj implementation
-void AdjacencyList::addAdjValue(int adj_value) {
-    this->adjList.push_back(adj_value);
-}
 
 int AdjacencyList::getVertex() {
     return vertex_val;
-}
-
-std::vector<int>* AdjacencyList::getAdjList() {
-    return &adjList;
 }
 
 //graph implementation
@@ -30,14 +23,14 @@ int Graph::getMaxVertex() {
 void Graph::addEdge(int vertex, int value) {
     AdjacencyList *temp_vertex = nullptr;
     AdjacencyList *temp_value = nullptr;
-    for(auto val : graph_list) {
+    for(auto &val : graph_list) {
         if(val.getVertex() == vertex) {
             temp_vertex = &val;
             break;
         }
     }
 
-    for(auto val : graph_list) {
+    for(auto &val : graph_list) {
         if(val.getVertex() == value) {
             temp_value = &val;
             break;
@@ -46,16 +39,27 @@ void Graph::addEdge(int vertex, int value) {
 
     if(temp_vertex == nullptr) {
         temp_vertex = new AdjacencyList(vertex);
+        temp_vertex->adjList.push_back(value);
+
         graph_list.push_back(*temp_vertex);
+    } else {
+        temp_vertex->adjList.push_back(value);
     }
 
     if(temp_value == nullptr) {
         temp_value = new AdjacencyList(value);
+        temp_value->adjList.push_back(vertex);
+
         graph_list.push_back(*temp_value);
+    } else {
+        temp_value->adjList.push_back(vertex);
     }
 
-    temp_vertex->addAdjValue(value);
-    temp_value->addAdjValue(vertex);
+    //std::cout << "ver " << temp_vertex << "\n";
+    //std::cout << "val "<< temp_value << "\n";
+
+    //temp_vertex->adjList.push_back(value);
+    //temp_value->adjList.push_back(vertex);
 }
 
 void Graph::traverse(int start) {
@@ -73,7 +77,7 @@ void Graph::dfs(int vertex, bool visited[]) {
         }
     }
 
-    for(auto &val : *temp->getAdjList()) {
+    for(auto &val : temp->adjList) {
         if(!visited[val]) {
             dfs(val, visited);
         }
@@ -83,8 +87,8 @@ void Graph::dfs(int vertex, bool visited[]) {
 void Graph::printGraph() {
     for(auto &val : graph_list) {
         std::cout << "Vertex: " << val.getVertex() << " | ";
-        std::vector<int> *adjList = val.getAdjList();
-        for(auto adj : *adjList) {
+        //std::cout << &val << "\n";
+        for(auto &adj : val.adjList) {
             std::cout << adj << " ";
         }
         std::cout << "\n";
