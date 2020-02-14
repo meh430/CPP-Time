@@ -6,7 +6,7 @@
 //adj implementation
 
 int AdjacencyList::getVertex() {
-    return vertex_val;
+    return this->vertex_val;
 }
 
 //graph implementation
@@ -23,14 +23,14 @@ int Graph::getMaxVertex() {
 void Graph::addEdge(int vertex, int value) {
     AdjacencyList *temp_vertex = nullptr;
     AdjacencyList *temp_value = nullptr;
-    for(auto &val : graph_list) {
+    for(auto &val : this->graph_list) {
         if(val.getVertex() == vertex) {
             temp_vertex = &val;
             break;
         }
     }
 
-    for(auto &val : graph_list) {
+    for(auto &val : this->graph_list) {
         if(val.getVertex() == value) {
             temp_value = &val;
             break;
