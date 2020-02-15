@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <queue>
 #include "Graph.h"
 #include "AdjacencyList.h"
 
@@ -84,6 +85,33 @@ void Graph::dfs(int vertex, bool visited[]) {
     }
 }
 
+void Graph::bfs(int start) {
+    std::cout << "\n";
+    std::queue<int> bfs_queue;
+    bfs_queue.push(start);
+    bool visited[this->getMaxVertex() + 1];
+    visited[start] = true;
+    int next;
+    while(!bfs_queue.empty()) {
+        next = bfs_queue.front();
+        std::cout << next << " -> ";
+        bfs_queue.pop();
+        AdjacencyList *temp = nullptr;
+        for(auto &val : this->graph_list) {
+            if(val.getVertex() == next) {
+                temp = &val;
+            }
+        }
+
+        for(auto &adj : temp->adjList) {
+            if(!visited[adj]) {
+                visited[adj] = true;
+                bfs_queue.push(adj);
+            }
+        }
+    }
+}
+
 void Graph::printGraph() {
     for(auto &val : graph_list) {
         std::cout << "Vertex: " << val.getVertex() << " | ";
@@ -103,5 +131,6 @@ int main() {
     graph.addEdge(1, 4);
     graph.printGraph();
     graph.traverse(1);
+    graph.bfs(1);
     return 0;
 }

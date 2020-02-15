@@ -10,6 +10,7 @@ class Graph {
         int getMaxVertex();
         void traverse(int start);
         void dfs(int vertex, bool visited[]);
+        void bfs(int start);
         void printGraph();
 };
 #endif
