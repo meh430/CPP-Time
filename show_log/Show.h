@@ -4,11 +4,11 @@
 #include <vector>
 class Show {
     public:
-        Show(std::string name) : show_name(name) {}
+        Show(std::string name);
         void set_fav_char(std::string char_name);
         void set_char_rank(int r, std::vector<Show> &data_list);
         void set_ep_watched(int e);
-        void set_rating(int r);
+        bool set_rating(int r);
         void set_rank(int r, std::vector<Show> &data_list);
         void set_char_rank(int r);
         void set_rank(int r);
@@ -20,9 +20,9 @@ class Show {
         int get_rank();
 
     private:
-        const std::string show_name;
+        std::string show_name;
         std::string fav_char;
-        int char_rank;
+        int char_rank ;
         int ep_watched;
         double rating;
         int rank;

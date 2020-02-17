@@ -1,6 +1,13 @@
 #include "Show.h"
 #include <algorithm>
-Show::Show(std::string name) : show_name(name) {}
+ Show::Show(std::string name) {
+    this->show_name = name;
+    this->fav_char = "";
+    this->char_rank = 0;
+    this->ep_watched = 0;
+    this->rating = 0.0;
+    this->rank = 0;
+ }
 
 void Show::set_fav_char(std::string char_name) {
     this->fav_char = char_name;
@@ -8,7 +15,7 @@ void Show::set_fav_char(std::string char_name) {
 
 void Show::set_char_rank(int r, std::vector<Show> &data_list) {
     this->char_rank = r;
-    std::sort(data_list.begin(), data_list.end(), [](const Show &ls, const Show &rs) { return ls.char_rank < rs.char_rank; });
+    std::sort(data_list.begin(), data_list.end(), [](const Show& lhs, const Show& rhs) { return lhs.char_rank < rhs.char_rank; });
     for (int i = 0; i < data_list.size(); i++) {
         if(data_list.at(i).char_rank == r) {
             this->char_rank = i;
@@ -23,7 +30,7 @@ void Show::set_char_rank(int r) {
 void Show::set_rank(int r, std::vector<Show> &data_list) {
     this->rank = r;
 
-    std::sort(data_list.begin(), data_list.end(), [](const Show &ls, const Show &rs) { return ls.rank < rs.rank; });
+    std::sort(data_list.begin(), data_list.end(), [](const Show& lhs, const Show& rhs) { return lhs.rank < rhs.rank; });
     for (int i = 0; i < data_list.size(); i++) {
         if(data_list.at(i).rank == r) {
             this->rank = i;
@@ -39,8 +46,13 @@ void Show::set_ep_watched(int e) {
     this->ep_watched = e;
 }
 
-void Show::set_rating(int r) {
+bool Show::set_rating(int r) {
+    if(r < 0 || r > 10)
+        return false;
+
+    
     this->rating = r;
+    return true;
 }
 
 int Show::get_char_rank() {
