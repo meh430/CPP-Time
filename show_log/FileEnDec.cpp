@@ -6,6 +6,7 @@ bool FileEnDec::find_file(std::string name) {
     for(char &c : name) {
         dec.append(this->cipher.at(c));
     }
+    
     dec.append(".txt");
     this->curr_file.open(dec);
     if(this->curr_file.is_open()) {
@@ -87,6 +88,12 @@ void FileEnDec::save_data(std::vector<Show> &data_list) {
         std::cout << val.get_char_rank() << "\n";
         std::cout << "\n";
     }
+}
+
+FileEnDec::~FileEnDec() {
+    if(this->curr_file.is_open()) {
+        this->curr_file.close();
+    } 
 }
 
 FileEnDec::FileEnDec() {

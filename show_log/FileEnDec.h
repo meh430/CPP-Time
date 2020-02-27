@@ -13,6 +13,8 @@ class FileEnDec {
         void load_data(std::vector<Show> &data_list);
         void save_data(std::vector<Show> &data_list);
         FileEnDec();
+        ~FileEnDec();
+
     private:
         std::fstream curr_file;
         std::string f_name;
