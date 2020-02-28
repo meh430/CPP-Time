@@ -1,6 +1,13 @@
 #include "FileEnDec.h"
 #include <iostream>
 #include <sstream> 
+
+bool FileEnDec::file_exists(const std::string &fname) {
+    std::ifstream inf(fname);
+    return inf.good();
+}
+
+
 bool FileEnDec::find_file(std::string name) {
     std::string dec;
     for(char &c : name) {
@@ -9,7 +16,7 @@ bool FileEnDec::find_file(std::string name) {
     
     dec.append(".txt");
     this->curr_file.open(dec);
-    if(this->curr_file.is_open()) {
+    if(this->file_exists(dec) && this->curr_file.is_open()) {
         this->f_name = dec;
         this->curr_file.close();
         return true;
@@ -80,13 +87,31 @@ void FileEnDec::save_data(std::vector<Show> &data_list) {
     this->curr_file.open(this->f_name);
     this->curr_file << this->f_pass;
     for(auto &val : data_list) {
-        std::cout << val.get_show_name() << "\n";
-        std::cout << val.get_rating() << "\n";
-        std::cout << val.get_ep_watched() << "\n";
-        std::cout << val.get_rank() << "\n";
-        std::cout << val.get_fav_char() << "\n";
-        std::cout << val.get_char_rank() << "\n";
-        std::cout << "\n";
+        this->curr_file << val.get_show_name() << "\n";
+        this->curr_file << val.get_rating() << "\n";
+        this->curr_file << val.get_ep_watched() << "\n";
+        this->curr_file << val.get_rank() << "\n";
+        this->curr_file << val.get_fav_char() << "\n";
+        this->curr_file << val.get_char_rank() << "\n";
+        this->curr_file << "\n";
+    }
+}
+
+void FileEnDec::create_new(std::string name, std::string pass) {
+    std::string enc;
+    for(char &c : name) {
+        enc.append(this->cipher.at(c));
+    }
+    enc.append(".txt");
+    if(this->file_exists(name)) {
+        std::cout << "File already exists\n";
+    } else {
+        this->curr_file.open(name);
+        std::string enc_pass;
+        for(char &c : pass) {
+            enc_pass.append(this->cipher.at(c));
+        }
+        this->curr_file << enc_pass << "\n";
     }
 }
 

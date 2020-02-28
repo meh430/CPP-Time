@@ -12,6 +12,8 @@ class FileEnDec {
         bool access_file(std::string pass);
         void load_data(std::vector<Show> &data_list);
         void save_data(std::vector<Show> &data_list);
+        void create_new(std::string name, std::string pass);
+        bool file_exists(const std::string &fileName);
         FileEnDec();
         ~FileEnDec();
 
